@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="trig_options">
+        <item>Degrees</item>
+        <item>Radians</item>
+        <item>Gradians</item>
+    </string-array>
+    <string-array name="func_options">
+        <item>sin</item>
+        <item>cos</item>
+        <item>tan</item>
+    </string-array>
+</resources>

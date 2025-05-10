@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#111111">
+
+    <TextView
+        android:id="@+id/textViewSmall"
+        style="@style/display"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/display"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="0" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnTrig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:textSize="14dp"
+            style="@style/button"
+            android:text="Trigonometria" />
+        <Button
+            android:id="@+id/btnFunc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            style="@style/button"
+            android:text="Funções" />
+        <Button
+            android:id="@+id/FE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            style="@style/button"
+            android:text="F-E" />
+        <Button
+            android:id="@+id/degBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            style="@style/button"
+            android:text="DEG" />
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#444444"
+        android:showDividers="middle"
+        android:stretchColumns="*">
+
+        <TableRow>
+            <Button style="@style/button" android:layout_columnWeight="1" android:text="MC"/>
+            <Button style="@style/button" android:layout_columnWeight="1" android:text="MR"/>
+            <Button style="@style/button" android:layout_columnWeight="1" android:text="M+"/>
+            <Button style="@style/button" android:layout_columnWeight="1" android:text="M‑"/>
+            <Button style="@style/button" android:layout_columnWeight="1" android:text="MS"/>
+            <Button style="@style/button" android:layout_columnWeight="1" android:text="Mv"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#444444"
+        android:showDividers="middle"
+        android:stretchColumns="*">
+
+        <TableRow>
+            <Button
+                android:id="@+id/nd"
+                style="@style/button"
+                android:text="2ⁿᵈ"/>
+            <Button
+                android:id="@+id/pi"
+                style="@style/button"
+                android:text="π"/>
+            <Button
+                android:id="@+id/e"
+                style="@style/button"
+                android:text="e"/>
+            <Button
+                android:id="@+id/c"
+                style="@style/button"
+                android:text="C"/>
+            <Button
+                android:id="@+id/backspace"
+                style="@style/button"
+                android:text="⌫"/>
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/xSquared"
+                style="@style/button"
+                android:text="x²"/>
+            <Button
+                android:id="@+id/oneOverX"
+                style="@style/button"
+                android:text="¹/x"/>
+            <Button
+                android:id="@+id/moduleOfX"
+                style="@style/button"
+                android:text="|x|"/>
+            <Button
+                android:id="@+id/exp"
+                style="@style/button"
+                android:text="exp"/>
+            <Button
+                android:id="@+id/mod"
+                style="@style/button"
+                android:text="mod"/>
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/sqrt2"
+                style="@style/button"
+                android:text="²√x"/>
+            <Button
+                android:id="@+id/openParen"
+                style="@style/button"
+                android:text="("/>
+            <Button
+                android:id="@+id/closeParen"
+                style="@style/button"
+                android:text=")"/>
+            <Button
+                android:id="@+id/factorial"
+                style="@style/button"
+                android:text="n!"/>
+            <Button
+                android:id="@+id/divide"
+                style="@style/button"
+                android:text="÷"/>
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/powerXY"
+                style="@style/button"
+                android:text="xʸ"/>
+            <Button
+                android:id="@+id/digit7"
+                style="@style/button"
+                android:text="7"/>
+            <Button
+                android:id="@+id/digit8"
+                style="@style/button"
+                android:text="8"/>
+            <Button
+                android:id="@+id/digit9"
+                style="@style/button"
+                android:text="9"/>
+            <Button
+                android:id="@+id/multiply"
+                style="@style/button"
+                android:text="×"/>
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/tenPowerX"
+                style="@style/button"
+                android:text="10ˣ"/>
+            <Button
+                android:id="@+id/digit4"
+                style="@style/button"
+                android:text="4"/>
+            <Button
+                android:id="@+id/digit5"
+                style="@style/button"
+                android:text="5"/>
+            <Button
+                android:id="@+id/digit6"
+                style="@style/button"
+                android:text="6"/>
+            <Button
+                android:id="@+id/minus"
+                style="@style/button"
+                android:text="−"/>
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/log"
+                style="@style/button"
+                android:text="log"/>
+            <Button
+                android:id="@+id/digit1"
+                style="@style/button"
+                android:text="1"/>
+            <Button
+                android:id="@+id/digit2"
+                style="@style/button"
+                android:text="2"/>
+            <Button
+                android:id="@+id/digit3"
+                style="@style/button"
+                android:text="3"/>
+            <Button
+                android:id="@+id/plus"
+                style="@style/button"
+                android:text="+"/>
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/ln"
+                style="@style/button"
+                android:text="ln"/>
+            <Button
+                android:id="@+id/plusMinus"
+                style="@style/button"
+                android:text="±"/>
+            <Button
+                android:id="@+id/digit0"
+                style="@style/button"
+                android:text="0"/>
+            <Button
+                android:id="@+id/decimal"
+                style="@style/button"
+                android:text="."/>
+            <Button
+                android:id="@+id/equals"
+                style="@style/button"
+                android:text="="/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

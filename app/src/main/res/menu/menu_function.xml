@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/module"  android:title="|x|"  />
+    <item android:id="@+id/floor"  android:title="⎣x⎦"  />
+    <item android:id="@+id/ceiling" android:title="⌈x⌉" />
+
+    <item android:id="@+id/rand"  android:title="rand"  />
+    <item android:id="@+id/dms"  android:title="-> dms"  />
+    <item android:id="@+id/deg" android:title="->deg" />
+</menu>

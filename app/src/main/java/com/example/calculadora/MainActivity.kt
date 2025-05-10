@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import net.objecthunter.exp4j.ExpressionBuilder
 import kotlin.math.round
+import kotlin.math.sqrt
 import kotlin.time.times
 
 @Suppress("NAME_SHADOWING")
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        var readOnlyDisplay = false
         var equation = ""
         val display = findViewById<TextView>(R.id.textView)
         val displaySmall = findViewById<TextView>(R.id.textViewSmall)
@@ -63,7 +65,9 @@ class MainActivity : AppCompatActivity() {
         val actionButtonIds: Map<String, Int> = mapOf(
             "equals" to R.id.equals,
             "plusMinus" to R.id.plusMinus,
-            "factorial" to R.id.factorial
+            "factorial" to R.id.factorial,
+            "sqrt2" to R.id.sqrt2,
+            "powerXY" to R.id.powerXY,
         )
 
         val actionButtons: Map<String, Button> = actionButtonIds
@@ -75,12 +79,17 @@ class MainActivity : AppCompatActivity() {
             if(openCount > closeCount){
                 equation += ")".repeat(openCount - closeCount)
             }
+            if (equation.endsWith("^")) {
+                equation += display.text.toString()
+            }
             val result = eval(equation)
             val roundedString = String.format("%.2f", result)
             val rounded = roundedString.toDouble()
+            equation = rounded.toString()
             displaySmall.text = equation
             display.text = rounded.toString()
         }
+
         actionButtons["plusMinus"]?.setOnClickListener {
             val number = display.text
             if (number[0] == '-') {
@@ -102,6 +111,18 @@ class MainActivity : AppCompatActivity() {
             displaySmall.text = displaySmall.text.toString() + total.toString()
             equation += total.toString()
             display.text = "0"
+        }
+
+        actionButtons["sqrt2"]?.setOnClickListener {
+            val number = display.text.toString()
+            display.text = sqrt(number.toDouble()).toString();
+        }
+
+        actionButtons["powerXY"]?.setOnClickListener {
+            equation += "^"
+            displaySmall.text = equation
+            display.text = "0"
+            readOnlyDisplay = true
         }
 
         operationButtons.forEach  { btn ->

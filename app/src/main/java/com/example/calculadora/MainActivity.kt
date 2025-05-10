@@ -11,9 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import net.objecthunter.exp4j.ExpressionBuilder
-import kotlin.math.round
+import java.math.BigDecimal
 import kotlin.math.sqrt
-import kotlin.time.times
 
 @Suppress("NAME_SHADOWING")
 class MainActivity : AppCompatActivity() {
@@ -68,6 +67,9 @@ class MainActivity : AppCompatActivity() {
             "factorial" to R.id.factorial,
             "sqrt2" to R.id.sqrt2,
             "powerXY" to R.id.powerXY,
+            "tenPowerX" to R.id.tenPowerX,
+            "log" to R.id.log,
+            "ln" to R.id.ln,
         )
 
         val actionButtons: Map<String, Button> = actionButtonIds
@@ -88,6 +90,7 @@ class MainActivity : AppCompatActivity() {
             equation = rounded.toString()
             displaySmall.text = equation
             display.text = rounded.toString()
+            readOnlyDisplay = true
         }
 
         actionButtons["plusMinus"]?.setOnClickListener {
@@ -125,12 +128,36 @@ class MainActivity : AppCompatActivity() {
             readOnlyDisplay = true
         }
 
+        actionButtons["tenPowerX"]?.setOnClickListener {
+            equation = equation.dropLast(1)
+            equation += "10^" + display.text.toString()
+            displaySmall.text = equation
+            display.text=  "0"
+            readOnlyDisplay = true
+        }
+
+        actionButtons["log"]?.setOnClickListener {
+            equation = equation.dropLast(1)
+            val number = display.text.toString()
+            equation += "log($number)"
+            displaySmall.text = equation
+            display.text=  "0"
+            readOnlyDisplay = true
+        }
+
+        actionButtons["ln"]?.setOnClickListener {
+            val input = display.text.toString()
+            val number = BigDecimal(input).toPlainString()
+            val result = eval("log($number) / log(2.7182818284590452353602874713527)")
+            equation = result.toString()
+            display.text = equation
+            displaySmall.text = equation
+            readOnlyDisplay = true
+        }
+
         operationButtons.forEach  { btn ->
             btn.setOnClickListener {
-                if (display.text.toString() == "0") {
-                    return@setOnClickListener
-                }
-
+                readOnlyDisplay = false
                 display.text = "0"
                 equation += operators[btn.text.toString()]
                 displaySmall.text = equation
@@ -157,6 +184,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
+                if (readOnlyDisplay) {
+                    equation = btn.text.toString()
+                    display.text = equation
+                    displaySmall.text = ""
+                    readOnlyDisplay = false
+                    return@setOnClickListener
+                }
                 if (display.text.toString() == "0" && btn.text.toString() != ".") {
                     display.text = btn.text
                     equation += btn.text.toString()
@@ -214,4 +248,5 @@ class MainActivity : AppCompatActivity() {
         val expression = builder.build().apply { setVariables(vars) }
         return expression.evaluate()
     }
+
 }

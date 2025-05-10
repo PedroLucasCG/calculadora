@@ -44,22 +44,20 @@ class MainActivity : AppCompatActivity() {
             R.id.digit8,
             R.id.digit9,
             R.id.decimal,
+            R.id.openParen,
+            R.id.closeParen,
         ).map { findViewById<Button>(it) }
         val operationButtons = listOf(
             R.id.divide,
             R.id.multiply,
             R.id.plus,
             R.id.minus,
-            R.id.openParen,
-            R.id.closeParen,
         ).map { findViewById<Button>(it) }
         val operators: Map<String, String> = mapOf(
             "+" to "+",
             "−" to "-",
             "×" to "*",
             "÷" to "/",
-            "(" to "(",
-            ")" to ")",
         )
 
         val actionButtonIds: Map<String, Int> = mapOf(
@@ -111,17 +109,33 @@ class MainActivity : AppCompatActivity() {
                 if (display.text.toString() == "0") {
                     return@setOnClickListener
                 }
-                if (btn.text.toString() == ")") {
-                    
-                }
+
                 display.text = "0"
-                equation += operators[btn.text]
+                equation += operators[btn.text.toString()]
                 displaySmall.text = equation
             }
         }
 
         digitButtons.forEach { btn ->
             btn.setOnClickListener {
+                if (btn.text.toString() == ")" || btn.text.toString() == "(") {
+                    val openCount  = equation.count { it == '(' }
+                    val closeCount = equation.count { it == ')' }
+
+                    if (display.text.toString() == "0") {
+                        equation += "("
+                        displaySmall.text = equation
+                        return@setOnClickListener
+                    }
+                    if (openCount == closeCount && btn.text.toString() == ")") {
+                        return@setOnClickListener
+                    } else {
+                        equation += btn.text.toString()
+                        displaySmall.text = equation
+                        return@setOnClickListener
+                    }
+                }
+
                 if (display.text.toString() == "0" && btn.text.toString() != ".") {
                     display.text = btn.text
                     equation += btn.text.toString()
@@ -133,6 +147,7 @@ class MainActivity : AppCompatActivity() {
                         return@setOnClickListener
                     }
                 }
+
                 equation += btn.text.toString()
                 display.text = display.text.toString() + btn.text.toString()
             }

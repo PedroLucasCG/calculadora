@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     private var readOnlyDisplay = false
     private var equation = ""
     private var isAltColumnOn = false
+    private var isRootY = false
+    private var isLogXBaseY = false
+    private var bufferLogXBaseY = 1.0;
     @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,6 +121,21 @@ class MainActivity : AppCompatActivity() {
                 }
                 equation = equation.replace(oldValue = "e", newValue = e.toString())
                 equation = equation.replace(oldValue = "π", newValue = pi.toString())
+                if (isRootY) {
+                    equation += ")"
+                    isRootY = false
+                }
+                if(isLogXBaseY) {
+                    equation = equation.dropLast(display.text.length)
+                    var number = display.text.toString()
+                    number = number.replace(oldValue = "e", newValue = e.toString())
+                    number = number.replace(oldValue = "π", newValue = pi.toString())
+                    val result = log(bufferLogXBaseY, number.toDouble())
+                    equation += "(" + formatResult(result) + ")"
+                    displaySmall.text = equation
+                    isLogXBaseY = false
+                    bufferLogXBaseY = 1.0
+                }
                 val result = eval(equation)
                 val roundedString = String.format("%.2f", result)
                 val rounded = roundedString.toDouble()
@@ -186,11 +204,22 @@ class MainActivity : AppCompatActivity() {
                 var number = display.text.toString()
                 number = number.replace(oldValue = "e", newValue = e.toString())
                 number = number.replace(oldValue = "π", newValue = pi.toString())
-                display.text = sqrt(number.toDouble()).toString();
+                if(actionButtons["sqrt2"]?.text == "²√x") {
+                    display.text = sqrt(number.toDouble()).toString()
+                } else {
+                    display.text = cbrt(number.toDouble()).toString()
+                }
+
             }
 
             actionButtons["powerXY"]?.setOnClickListener {
-                equation += "^"
+                if(actionButtons["sqrt2"]?.text == "xʸ") {
+                    equation += "^"
+                } else {
+                    equation += "^(1/"
+                    isRootY = true
+                }
+
                 displaySmall.text = equation
                 display.text = "0"
             }
@@ -200,7 +229,11 @@ class MainActivity : AppCompatActivity() {
                 var number = display.text.toString()
                 number = number.replace(oldValue = "e", newValue = e.toString())
                 number = number.replace(oldValue = "π", newValue = pi.toString())
-                val result = 10.0.pow(number.toDouble())
+                val result = if (actionButtons["tenPowerX"]?.text == "10ˣ") {
+                    10.0.pow(number.toDouble())
+                } else {
+                    2.0.pow(number.toDouble())
+                }
                 equation += "(" + formatResult(result) + ")"
                 displaySmall.text = equation
                 display.text = result.toString()
@@ -212,11 +245,17 @@ class MainActivity : AppCompatActivity() {
                 var number = display.text.toString()
                 number = number.replace(oldValue = "e", newValue = e.toString())
                 number = number.replace(oldValue = "π", newValue = pi.toString())
-                val result = log(number.toDouble(), 10.0)
-                equation += "(" + formatResult(result) + ")"
-                displaySmall.text = equation
-                display.text = result.toString()
-                readOnlyDisplay = true
+                if (actionButtons["log"]?.text == "log") {
+                    val result = log(number.toDouble(), 10.0)
+                    equation += "(" + formatResult(result) + ")"
+                    display.text = "0"
+                    displaySmall.text = equation
+                } else {
+                    bufferLogXBaseY = number.toDouble()
+                    display.text = "0"
+                    displaySmall.text = equation
+                    isLogXBaseY = true
+                }
             }
 
             actionButtons["ln"]?.setOnClickListener {
@@ -224,9 +263,15 @@ class MainActivity : AppCompatActivity() {
                 input = input.replace(oldValue = "e", newValue = e.toString())
                 input = input.replace(oldValue = "π", newValue = pi.toString())
                 val number = BigDecimal(input).toPlainString()
-                val result = eval("log($number) / log($e)")
+                val result = if (actionButtons["ln"]?.text == "ln") {
+                    eval("log($number) / log($e)")
+                } else {
+                    equation = equation.dropLast(display.text.length)
+                    e.pow(display.text.toString().toDouble())
+                }
+
                 equation += "(" + formatResult(result) + ")"
-                display.text = equation
+                display.text = "0"
                 displaySmall.text = equation
                 readOnlyDisplay = true
             }
@@ -236,7 +281,13 @@ class MainActivity : AppCompatActivity() {
                 var number = display.text.toString()
                 number = number.replace(oldValue = "e", newValue = e.toString())
                 number = number.replace(oldValue = "π", newValue = pi.toString())
-                val result = number.toDouble().pow(2).toString()
+
+                val result = if (actionButtons["xSquared"]?.text == "x²") {
+                    number.toDouble().pow(2).toString()
+                } else {
+                    number.toDouble().pow(3).toString()
+                }
+
                 equation += result
                 display.text = equation
                 displaySmall.text = equation
@@ -287,14 +338,6 @@ class MainActivity : AppCompatActivity() {
                 equation = "$equation%"
                 display.text = "0"
                 displaySmall.text = equation
-            }
-
-            actionButtons["ex"]?.setOnClickListener {
-                val result = e.pow(display.text.toString().toDouble()).toString()
-                equation += result
-                display.text = result
-                displaySmall.text = equation
-                readOnlyDisplay = true
             }
 
             actionButtons["c"]?.setOnClickListener {
@@ -373,8 +416,26 @@ class MainActivity : AppCompatActivity() {
                          equation.last() != 'π') {
                         return@setOnClickListener
                     }
-                    display.text = "0"
+                    if(isLogXBaseY) {
+                        var number = display.text.toString()
+                        number = number.replace(oldValue = "e", newValue = e.toString())
+                        number = number.replace(oldValue = "π", newValue = pi.toString())
+                        val result = log(bufferLogXBaseY, number.toDouble())
+                        equation = equation.dropLast(display.text.length)
+                        equation += "(" + formatResult(result) + ")" + operators[btn.text.toString()]
+                        displaySmall.text = equation
+                        display.text = "0"
+                        isLogXBaseY = false
+                        bufferLogXBaseY = 1.0
+                        return@setOnClickListener
+                    }
+                    if (isRootY) {
+                        equation += ")" + operators[btn.text.toString()]
+                        isRootY = false
+                        return@setOnClickListener
+                    }
                     equation += operators[btn.text.toString()]
+                    display.text = "0"
                     displaySmall.text = equation
                 }
             }

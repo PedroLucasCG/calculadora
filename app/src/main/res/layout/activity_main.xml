@@ -3,14 +3,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="#3d3d3d"
     android:background="#111111">
 
     <TextView
         android:id="@+id/textViewSmall"
-        style="@style/display"
+        style="@style/displaySmall"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight=".5"
         android:text="0" />
 
     <TextView
@@ -28,7 +29,7 @@
             android:id="@+id/btnTrig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="#3d3d3d"
             android:textSize="14dp"
             style="@style/button"
             android:text="Trigonometria" />
@@ -36,21 +37,21 @@
             android:id="@+id/btnFunc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="#3d3d3d"
             style="@style/button"
             android:text="Funções" />
         <Button
             android:id="@+id/FE"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="#3d3d3d"
             style="@style/button"
             android:text="F-E" />
         <Button
             android:id="@+id/deg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="#3d3d3d"
             style="@style/button"
             android:text="DEG" />
     </LinearLayout>
@@ -58,7 +59,6 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="#444444"
         android:showDividers="middle"
         android:stretchColumns="*">
 
@@ -75,15 +75,15 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="#444444"
         android:showDividers="middle"
+        android:backgroundTint="#3d3d3d"
         android:stretchColumns="*">
 
         <TableRow>
             <Button
-                android:id="@+id/ex"
+                android:id="@+id/nd"
                 style="@style/button"
-                android:text="eˣ"/>
+                android:text="2ⁿᵈ"/>
             <Button
                 android:id="@+id/pi"
                 style="@style/button"

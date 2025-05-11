@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/deg"  android:title="Degrees"  />
-    <item android:id="@+id/rad"  android:title="Radians"  />
-    <item android:id="@+id/grad" android:title="Gradians" />
+    <item android:id="@+id/sin"  android:title="sin"  />
+    <item android:id="@+id/cos"  android:title="cos"  />
+    <item android:id="@+id/tan" android:title="tan" />
+    <item android:id="@+id/sec"  android:title="sec"  />
+    <item android:id="@+id/csc"  android:title="csc"  />
+    <item android:id="@+id/cot" android:title="cot" />
+
+    <item android:id="@+id/asin"  android:title="sin⁻¹"  />
+    <item android:id="@+id/acos"  android:title="cos⁻¹"  />
+    <item android:id="@+id/atan" android:title="tan⁻¹" />
+    <item android:id="@+id/asec"  android:title="sec⁻¹"  />
+    <item android:id="@+id/acsc"  android:title="csc⁻¹"  />
+    <item android:id="@+id/acot" android:title="cot⁻¹" />
 </menu>

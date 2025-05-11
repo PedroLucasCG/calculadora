@@ -47,7 +47,7 @@
             style="@style/button"
             android:text="F-E" />
         <Button
-            android:id="@+id/degBtn"
+            android:id="@+id/deg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
@@ -63,12 +63,11 @@
         android:stretchColumns="*">
 
         <TableRow>
-            <Button style="@style/button" android:layout_columnWeight="1" android:text="MC"/>
-            <Button style="@style/button" android:layout_columnWeight="1" android:text="MR"/>
-            <Button style="@style/button" android:layout_columnWeight="1" android:text="M+"/>
-            <Button style="@style/button" android:layout_columnWeight="1" android:text="M‑"/>
-            <Button style="@style/button" android:layout_columnWeight="1" android:text="MS"/>
-            <Button style="@style/button" android:layout_columnWeight="1" android:text="Mv"/>
+            <Button style="@style/button" android:id="@+id/MC" android:layout_columnWeight="1" android:text="MC"/>
+            <Button style="@style/button" android:id="@+id/MR" android:layout_columnWeight="1" android:text="MR"/>
+            <Button style="@style/button" android:id="@+id/Mplus" android:layout_columnWeight="1" android:text="M+"/>
+            <Button style="@style/button" android:id="@+id/Mminus" android:layout_columnWeight="1" android:text="M‑"/>
+            <Button style="@style/button" android:id="@+id/MS" android:layout_columnWeight="1" android:text="MS"/>
         </TableRow>
 
     </TableLayout>
@@ -82,9 +81,9 @@
 
         <TableRow>
             <Button
-                android:id="@+id/nd"
+                android:id="@+id/ex"
                 style="@style/button"
-                android:text="2ⁿᵈ"/>
+                android:text="eˣ"/>
             <Button
                 android:id="@+id/pi"
                 style="@style/button"

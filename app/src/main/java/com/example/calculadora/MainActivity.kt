@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         var readOnlyDisplay = false
         var isExpOperation = false
+        val isScientificMode = false
         var isMod = false
         var lastEntrySize = 0;
         var memory: Double = 0.0
@@ -98,6 +99,9 @@ class MainActivity : AppCompatActivity() {
             .mapValues { (_, id) -> findViewById<Button>(id) }
 
         actionButtons["equals"]?.setOnClickListener {
+            if (equation.last() == '.') {
+                equation += "0"
+            }
             val openCount  = equation.count { it == '(' }
             val closeCount = equation.count { it == ')' }
             if(openCount > closeCount){
@@ -213,7 +217,7 @@ class MainActivity : AppCompatActivity() {
 
         actionButtons["exp"]?.setOnClickListener {
             equation = equation.dropLast(display.text.length)
-            var number = display.text.toString().toDouble()
+            val number = display.text.toString().toDouble()
             equation += "($number * e + 0)"
             display.text = "0"
             displaySmall.text = equation
@@ -231,8 +235,8 @@ class MainActivity : AppCompatActivity() {
 
         actionButtons["ex"]?.setOnClickListener {
             val result = e.pow(display.text.toString().toDouble()).toString()
-            equation += result.toString()
-            display.text = result.toString()
+            equation += result
+            display.text = result
             displaySmall.text = equation
             readOnlyDisplay = true
         }
@@ -256,7 +260,7 @@ class MainActivity : AppCompatActivity() {
                 display.text = "0"
             } else {
                 displaySmall.text = "0"
-                equation = ""
+                equation = "0"
             }
 
             if (display.text.toString() != "0") {
@@ -304,6 +308,9 @@ class MainActivity : AppCompatActivity() {
                 lastEntrySize = display.text.length
                 readOnlyDisplay = false
                 isExpOperation = false
+                if (equation.last() == '.') {
+                    equation += "0"
+                }
                 display.text = "0"
                 equation += operators[btn.text.toString()]
                 displaySmall.text = equation
@@ -339,16 +346,24 @@ class MainActivity : AppCompatActivity() {
                         if (openCount == closeCount && btn.text.toString() == ")") {
                             return@setOnClickListener
                         } else {
+                            if (equation.last() == '.') {
+                                equation += "0"
+                            }
                             equation += btn.text.toString()
                             displaySmall.text = equation
+                            display.text = "0"
                             return@setOnClickListener
                         }
                     }
 
                     if (readOnlyDisplay) {
-                        equation = btn.text.toString()
+                        equation = if (btn.text.toString() == ".") {
+                            "0" + btn.text.toString()
+                        } else {
+                            btn.text.toString()
+                        }
                         display.text = equation
-                        displaySmall.text = ""
+                        displaySmall.text = "0"
                         readOnlyDisplay = false
                         return@setOnClickListener
                     }
@@ -363,8 +378,11 @@ class MainActivity : AppCompatActivity() {
                             return@setOnClickListener
                         }
                     }
-
-                    equation += btn.text.toString()
+                    equation += if (btn.text.toString() == ".") {
+                        "0" + btn.text.toString()
+                    } else {
+                        btn.text.toString()
+                    }
                     display.text = display.text.toString() + btn.text.toString()
                 } catch (e: Exception) {
                     readOnlyDisplay = true
@@ -464,6 +482,14 @@ class MainActivity : AppCompatActivity() {
         vars.forEach { (name, value) -> builder.variable(name) }
         val expression = builder.build().apply { setVariables(vars) }
         return expression.evaluate()
+    }
+
+    private fun formatResult(value: Double): String {
+        return if (isScientificMode) {
+            String.format("%.6E", value)
+        } else {
+            value.toString()
+        }
     }
 
 }

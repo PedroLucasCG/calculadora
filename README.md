@@ -1,4 +1,4 @@
-# Aplicativo Calculadora Sistemas Tech
+# Aplicativo Calculadora
 
 ## Visão Geral do Projeto
 

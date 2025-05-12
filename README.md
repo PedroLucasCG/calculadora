@@ -34,7 +34,7 @@ Kotlin 1.8+
 
 Clone o repositório:
 
-git clone [https://github.com/seu-usuario/sistemas-tech-calculator.git](https://github.com/PedroLucasCG/calculadora/)
+git clone https://github.com/PedroLucasCG/calculadora/
 
 Abra o projeto no Android Studio.
 

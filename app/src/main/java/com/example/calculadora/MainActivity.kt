@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         ).map { findViewById<Button>(it) }
         val operators: Map<String, String> = mapOf(
             "+" to "+",
-            "−" to "-",
+            "-" to "-",
             "×" to "*",
             "÷" to "/",
         )
@@ -90,7 +90,6 @@ class MainActivity : AppCompatActivity() {
             "moduleOfX" to R.id.moduleOfX,
             "exp" to R.id.exp,
             "mod" to R.id.mod,
-            //"ex" to R.id.ex,
             "2nd" to R.id.nd,
             "c" to R.id.c,
             "backspace" to R.id.backspace,
@@ -108,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
         try {
             actionButtons["equals"]?.setOnClickListener {
-                if (equation.last() == '.') {
+                if (!equation.isEmpty() && equation.last() == '.') {
                     equation += "0"
                 }
                 val openCount = equation.count { it == '(' }
@@ -122,7 +121,6 @@ class MainActivity : AppCompatActivity() {
                 equation = equation.replace(oldValue = "e", newValue = e.toString())
                 equation = equation.replace(oldValue = "π", newValue = pi.toString())
                 if (isRootY) {
-                    equation += ")"
                     isRootY = false
                 }
                 if(isLogXBaseY) {
@@ -213,7 +211,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             actionButtons["powerXY"]?.setOnClickListener {
-                if(actionButtons["sqrt2"]?.text == "xʸ") {
+                if(actionButtons["powerXY"]?.text == "xʸ") {
                     equation += "^"
                 } else {
                     equation += "^(1/"
@@ -259,6 +257,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             actionButtons["ln"]?.setOnClickListener {
+                equation = equation.dropLast(display.text.length)
                 var input = display.text.toString()
                 input = input.replace(oldValue = "e", newValue = e.toString())
                 input = input.replace(oldValue = "π", newValue = pi.toString())
@@ -343,6 +342,7 @@ class MainActivity : AppCompatActivity() {
             actionButtons["c"]?.setOnClickListener {
                 if (actionButtons["c"]?.text == "CE") {
                     display.text = "0"
+                    actionButtons["c"]?.text = "C"
                 } else {
                     displaySmall.text = "0"
                     equation = ""
@@ -353,12 +353,15 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     actionButtons["c"]?.text = "C"
                 }
+
             }
 
             actionButtons["backspace"]?.setOnClickListener {
                 display.text = display.text.dropLast(1)
                 if (display.text.isEmpty()) {
                     display.text = "0"
+                } else {
+                    equation = equation.dropLast(1)
                 }
             }
 
@@ -372,7 +375,9 @@ class MainActivity : AppCompatActivity() {
 
             actionButtons["MR"]?.setOnClickListener {
                 if (memory != 0.0) {
-                    display.text = memory.toString()
+                    display.text = "$memory"
+                    equation = "$memory"
+                    readOnlyDisplay = true
                 }
             }
 
@@ -406,10 +411,11 @@ class MainActivity : AppCompatActivity() {
                     lastEntrySize = display.text.length
                     readOnlyDisplay = false
                     isExpOperation = false
-                    if (equation.last() == '.') {
+                    if (equation.isNotEmpty() && equation.last() == '.') {
                         equation += "0"
                     }
                     if (
+                         equation.isNotEmpty() &&
                         !equation.last().isDigit() &&
                          equation.last() != ')'    &&
                          equation.last() != 'e'    &&
@@ -432,6 +438,8 @@ class MainActivity : AppCompatActivity() {
                     if (isRootY) {
                         equation += ")" + operators[btn.text.toString()]
                         isRootY = false
+                        display.text = "0"
+                        displaySmall.text = equation
                         return@setOnClickListener
                     }
                     equation += operators[btn.text.toString()]
@@ -454,7 +462,7 @@ class MainActivity : AppCompatActivity() {
                             val openCount = equation.count { it == '(' }
                             val closeCount = equation.count { it == ')' }
 
-                            if (display.text.toString() == "0") {
+                            if (display.text.toString() == "0" && btn.text.toString() != ")") {
                                 equation += "("
                                 displaySmall.text = equation
                                 return@setOnClickListener
@@ -472,7 +480,9 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
 
-                        if (readOnlyDisplay) {
+                        if (readOnlyDisplay &&
+                            equation.isNotEmpty() &&
+                            equation.last().isDigit()) {
                             equation = if (btn.text.toString() == ".") {
                                 "0" + btn.text.toString()
                             } else {
@@ -482,6 +492,8 @@ class MainActivity : AppCompatActivity() {
                             displaySmall.text = "0"
                             readOnlyDisplay = false
                             return@setOnClickListener
+                        } else if (readOnlyDisplay) {
+                            readOnlyDisplay = false
                         }
                         if (display.text.toString() == "0" && btn.text.toString() != ".") {
                             display.text = btn.text
@@ -501,6 +513,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         display.text = display.text.toString() + btn.text.toString()
                     } catch (e: Exception) {
+                        Log.d("digit", e.toString())
                         readOnlyDisplay = true
                     } finally {
                         if (display.text.toString() != "0") {

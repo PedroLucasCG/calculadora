@@ -191,7 +191,7 @@
             <Button
                 android:id="@+id/minus"
                 style="@style/button"
-                android:text="−"/>
+                android:text="-"/>
         </TableRow>
 
         <TableRow>
